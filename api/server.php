@@ -3,18 +3,25 @@
 namespace Application;
 
 use Application\Models\Database;
+use Application\Models\Product;
 use Application\Models\ProductTypes\Book;
 
-require_once ("../vendor/autoload.php");
+require_once("../vendor/autoload.php");
 
 header("Access-Control-Allow-Origin: *");
+header('Content-Type: application/json; charset=utf-8');
 
-echo ("Dumping...");
-echo (file_get_contents('php://input'));
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    die("Received request is not POST");
-}
 $database = new Database();
-$data = json_decode(file_get_contents('php://input'), true);
-$bookExample = new Book($data["sku"], $data["name"], $data["price"], $data["weight"]);
-$bookExample->putIntoDB($database);
+switch ($_SERVER['REQUEST_METHOD']) {
+    case 'GET':
+        $productsArray = Product::getAllProducts($database);
+        echo (json_encode($productsArray));
+        break;
+    case 'POST':
+        if ($_POST['actionType'] === 'addProduct') {
+            $product = Product::createObjectFromJSON(file_get_contents('php://input'));
+            $product->putIntoDB($database);
+        }
+        break;
+
+}

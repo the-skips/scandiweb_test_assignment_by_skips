@@ -26,5 +26,9 @@ class Furniture extends Product
         $database->execute("INSERT INTO Furniture (ProductSKU, HeightInM, WidthInM, LengthInM) VALUES (?,?,?,?)", [$this->sku, $this->height, $this->width, $this->length]);
     }
 
-
+    public static function getAllFurniture($database)
+    {
+        $stmt = $database->execute("SELECT p.*,f.HeightInM, f.WidthInM, f.LengthInM FROM Products p INNER JOIN Furniture f on p.SKU=f.ProductSKU");
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }

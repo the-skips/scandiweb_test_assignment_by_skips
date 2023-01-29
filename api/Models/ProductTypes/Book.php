@@ -22,5 +22,9 @@ class Book extends Product
         $database->execute("INSERT INTO Books (ProductSKU, WeightInKg) VALUES (?,?)", [$this->sku, $this->weight]);
     }
 
-
+    public static function getAllBooks($database)
+    {
+        $stmt = $database->execute("SELECT p.*,b.WeightInKg FROM Products p INNER JOIN Books b on p.SKU=b.ProductSKU");
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }

@@ -22,5 +22,9 @@ class DVD extends Product
         $database->execute("INSERT INTO DVDs (ProductSKU, SizeInMB) VALUES (?,?)", [$this->sku, $this->size]);
     }
 
-
+    public static function getAllDVDs($database)
+    {
+        $stmt = $database->execute("SELECT p.*,d.SizeInMB FROM Products p INNER JOIN DVDs d on p.SKU=d.ProductSKU");
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }
