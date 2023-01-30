@@ -18,10 +18,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
         echo (json_encode($productsArray));
         break;
     case 'POST':
-        if ($_POST['actionType'] === 'addProduct') {
-            $product = Product::createObjectFromJSON(file_get_contents('php://input'));
-            $product->putIntoDB($database);
+        $data = json_decode(file_get_contents('php://input'), true);
+        switch ($data['actionType']) {
+            case 'addProducts':
+                $products = Product::createObjectsFromArray($data['products']);
+                foreach ($products as $p) {
+                    $p->putIntoDB($database);
+                }
+                break;
         }
         break;
-
 }

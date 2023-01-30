@@ -12,22 +12,27 @@ abstract class Product
     private $name;
     private $price;
 
-    public static function createObjectFromJSON($json)
+    public static function createObjectsFromArray($data)
     {
-        $resultObject = null;
-        $data = json_decode($json, true);
-        switch ($data['productType']) {
-            case 'book':
-                $resultObject = new Book($data["sku"], $data["name"], $data["price"], $data["weight"]);
-                break;
-            case 'dvd':
-                $resultObject = new DVD($data['sku'], $data['name'], $data['price'], $data['size']);
-                break;
-            case 'furniture':
-                $resultObject = new Furniture($data['sku'], $data['name'], $data['price'], $data['height'], $data['width'], $data['length']);
-                break;
+        $objectsArray = array();
+        for ($i = 0; $i < count($data); $i++) {
+            $object = $data[$i];
+            switch ($object['productType']) {
+                case 'book':
+                    $resultObject = new Book($object["sku"], $object["name"], $object["price"], $object["weight"]);
+                    array_push($objectsArray, $resultObject);
+                    break;
+                case 'dvd':
+                    $resultObject = new DVD($object['sku'], $object['name'], $object['price'], $object['size']);
+                    array_push($objectsArray, $resultObject);
+                    break;
+                case 'furniture':
+                    $resultObject = new Furniture($object['sku'], $object['name'], $object['price'], $object['height'], $object['width'], $object['length']);
+                    array_push($objectsArray, $resultObject);
+                    break;
+            }
         }
-        return $resultObject;
+        return $objectsArray;
     }
 
     abstract public function putIntoDB($database);
@@ -39,9 +44,9 @@ abstract class Product
     public static function getAllProducts($database)
     {
         $products = array();
-        $products['books'] = Book::getAllBooks($database);
-        $products['dvds'] = DVD::getAllDVDs($database);
-        $products['furniture'] = Furniture::getAllFurniture($database);
+        $products = array_merge($products, Book::getAllBooks($database));
+        $products = array_merge($products, DVD::getAllDVDs($database));
+        $products = array_merge($products, Furniture::getAllFurniture($database));
         return $products;
     }
 }
