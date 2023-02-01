@@ -4,7 +4,6 @@ namespace Application;
 
 use Application\Models\Database;
 use Application\Models\Product;
-use Application\Models\ProductTypes\Book;
 
 require_once("../vendor/autoload.php");
 
@@ -19,11 +18,16 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
     case 'POST':
         $data = json_decode(file_get_contents('php://input'), true);
+        $products = Product::createObjectsFromArray($data['products']);
         switch ($data['actionType']) {
             case 'addProducts':
-                $products = Product::createObjectsFromArray($data['products']);
                 foreach ($products as $p) {
                     $p->putIntoDB($database);
+                }
+                break;
+            case 'deleteProducts':
+                foreach ($products as $p) {
+                    $p->deleteFromDB($database);
                 }
                 break;
         }

@@ -8,9 +8,13 @@ use Application\Models\ProductTypes\Furniture;
 
 abstract class Product
 {
-    private $sku;
-    private $name;
-    private $price;
+    protected $sku;
+    protected $name;
+    protected $price;
+
+    public function getSKU() {
+        return $this->sku;
+    }
 
     public static function createObjectsFromArray($data)
     {
