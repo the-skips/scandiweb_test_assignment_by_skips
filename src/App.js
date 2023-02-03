@@ -1,15 +1,19 @@
 import './App.css';
 import React from 'react';
-import Hello from './Components/Hello';
+import { BrowserRouter,Routes,Route} from 'react-router-dom';
+import ProductList from './Pages/ProductList';
 
 class App extends React.Component {
 
 
   render() {
-    return(
-    <div className="App">
-      <Hello/>
-    </div>);
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<ProductList/>}/>
+        </Routes>
+      </BrowserRouter>
+    );
   }
 }
 

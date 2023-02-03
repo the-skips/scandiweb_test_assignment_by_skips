@@ -17,7 +17,7 @@ class Hello extends React.Component {
         let sent = fetch("https://scandiwebtestsitebyskips.000webhostapp.com/api/server.php", {
             method: "POST",
             headers:{
-                'Content-Type': 'application/jason'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         })
