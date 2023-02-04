@@ -12,7 +12,8 @@ abstract class Product
     protected $name;
     protected $price;
 
-    public function getSKU() {
+    public function getSKU()
+    {
         return $this->sku;
     }
 
@@ -51,6 +52,9 @@ abstract class Product
         $products = array_merge($products, Book::getAllBooks($database));
         $products = array_merge($products, DVD::getAllDVDs($database));
         $products = array_merge($products, Furniture::getAllFurniture($database));
+        usort($products, function ($a, $b) {
+            return strcmp($a['SKU'], $b['SKU']);
+        });
         return $products;
     }
 }
