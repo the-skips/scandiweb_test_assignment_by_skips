@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 class NavigationButton extends React.Component {
     constructor(props){
@@ -6,8 +7,9 @@ class NavigationButton extends React.Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick() {
-        console.log("button pressed");
+    handleClick(event) {
+        event.preventDefault();
+        this.props.history.push(this.props.to);
     }
 
     render() {
@@ -16,4 +18,4 @@ class NavigationButton extends React.Component {
         );
     }
 }
-export default NavigationButton;
+export default withRouter(NavigationButton);

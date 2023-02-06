@@ -1,7 +1,8 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter,Routes,Route} from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ProductList from './Pages/ProductList';
+import AddProduct from './Pages/AddProduct';
 
 class App extends React.Component {
 
@@ -9,9 +10,12 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <Routes>
-          <Route exact path="/" element={<ProductList/>}/>
-        </Routes>
+        <Route exact path="/">
+          <ProductList />
+        </Route>
+        <Route exact path="/add-product">
+          <AddProduct />
+        </Route>
       </BrowserRouter>
     );
   }

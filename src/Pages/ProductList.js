@@ -60,7 +60,7 @@ class ProductList extends React.Component {
                 <form onSubmit={this.handleDelete}>
                     <div className="Header">
                         Product List
-                        {<NavigationButton/>}
+                        {<NavigationButton {...this.props} to="/add-product" text="Add Products"/>}
                         <input type="submit" value="Mass Delete"/>
                     </div>
                     <div className="Body">
