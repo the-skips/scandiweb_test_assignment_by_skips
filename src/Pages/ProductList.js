@@ -5,6 +5,8 @@ import { Book } from "../DTO/Book";
 import { DVD } from "../DTO/DVD";
 import { Furniture } from "../DTO/Furniture";
 
+import { Container, Row, Col } from "react-bootstrap";
+
 class ProductList extends React.Component {
     constructor(props) {
         super();
@@ -58,14 +60,18 @@ class ProductList extends React.Component {
         return (
             <div>
                 <form onSubmit={this.handleDelete}>
-                    <div className="Header">
-                        Product List
-                        {<NavigationButton {...this.props} to="/add-product" text="Add Products"/>}
-                        <input type="submit" value="Mass Delete"/>
-                    </div>
-                    <div className="Body">
-                        {this.showProducts()}
-                    </div>
+                    <Container fluid>
+                        <Row className="align-items-center">
+                            <Col><p className="text-center fw-bold fst-italic h1 title">Product List</p></Col>
+                            <Col xs="2">{<NavigationButton {...this.props} to="/add-product" text="Add Products"/>}</Col>
+                            <Col xs="2"><input type="submit" value="Mass Delete"/></Col>
+                        </Row>
+                    </Container>
+                    <Container fluid>
+                        <Row className="justify-content-xs-around">
+                            {this.showProducts()}
+                        </Row>
+                    </Container>
                 </form>
             </div>
         );

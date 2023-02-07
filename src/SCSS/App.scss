@@ -1,0 +1,32 @@
+@import "custom.scss";
+
+$bgClr: rgb(209, 208, 130);
+$titleClr: rgb(0, 61, 61);
+
+/*
+* {
+  outline: 1px solid #f00 !important;
+}
+*/
+
+body {
+    background-color: $bgClr;
+}
+
+.App {
+    padding: 5vh 2vw 5vh;
+}
+
+.title {
+    color: $titleClr;
+}
+
+.productBox {
+    position: relative;
+    text-align: center;
+    .checkBox {
+        position: absolute;
+        top: 0.5vw;
+        right: 0.5vw;
+    }
+}
