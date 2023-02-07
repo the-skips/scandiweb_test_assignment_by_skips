@@ -1,0 +1,15 @@
+@import "App.scss";
+
+.header {
+    --bs-border-opacity: 0.5;
+}
+
+.productBox {
+    position: relative;
+    text-align: center;
+    .checkBox {
+        position: absolute;
+        top: 0.5vw;
+        right: 0.5vw;
+    }
+}

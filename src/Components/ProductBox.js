@@ -16,7 +16,7 @@ class ProductBox extends React.Component {
                 <Container className="productBox border rounded-3 border-primary">
                     <input
                         name={this.props.product.sku}
-                        className="checkBox"
+                        className="checkBox"    
                         type="checkbox"
                         checked={this.state.checkboxChecked}
                         onChange={e => this.setState({ checkboxChecked: e.target.checked })}

@@ -6,6 +6,7 @@ import { DVD } from "../DTO/DVD";
 import { Furniture } from "../DTO/Furniture";
 
 import { Container, Row, Col } from "react-bootstrap";
+import "../SCSS/ProductList.scss"
 
 class ProductList extends React.Component {
     constructor(props) {
@@ -60,14 +61,14 @@ class ProductList extends React.Component {
         return (
             <div>
                 <form onSubmit={this.handleDelete}>
-                    <Container fluid>
+                    <Container fluid className="pb-2 mb-4 border-bottom border-3 border-secondary header">
                         <Row className="align-items-center">
-                            <Col><p className="text-center fw-bold fst-italic h1 title">Product List</p></Col>
+                            <Col><p className="text-center fw-bold fst-italic h1 text-primary">Product List</p></Col>
                             <Col xs="2">{<NavigationButton {...this.props} to="/add-product" text="Add Products"/>}</Col>
                             <Col xs="2"><input type="submit" value="Mass Delete"/></Col>
                         </Row>
                     </Container>
-                    <Container fluid>
+                    <Container fluid className="px-5">
                         <Row className="justify-content-xs-around">
                             {this.showProducts()}
                         </Row>
