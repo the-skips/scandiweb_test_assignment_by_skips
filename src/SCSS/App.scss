@@ -1,6 +1,6 @@
 $theme-colors: (
     "primary": rgb(0, 61, 61),
-    "secondary": rgb(100, 64, 62)
+    "secondary": rgb(100, 64, 62),
 );
 
 @import "~bootstrap/scss/bootstrap";
@@ -21,4 +21,6 @@ body {
     padding: 5vh 2vw 5vh;
 }
 
-
+.header {
+    --bs-border-opacity: 0.5;
+}

@@ -16,17 +16,17 @@ class ProductBox extends React.Component {
                 <Container className="productBox border rounded-3 border-primary">
                     <input
                         name={this.props.product.sku}
-                        className="checkBox"    
+                        className="delete-checkbox"    
                         type="checkbox"
                         checked={this.state.checkboxChecked}
                         onChange={e => this.setState({ checkboxChecked: e.target.checked })}
                     />
-                    <div>
+                    <Container className="py-5">
                         {this.props.product.sku} <br />
                         {this.props.product.name} <br />
                         {this.props.product.price} <br />
                         {this.props.product.printProductSpecificAttributes()}
-                    </div>
+                    </Container>
                 </Container>
             </Col>
         );

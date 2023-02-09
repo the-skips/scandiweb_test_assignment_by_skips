@@ -1,6 +1,6 @@
 import { Product } from "./Product";
 
-export class DVD extends Product {
+export default class DVD extends Product {
     constructor(sku, name, price, size) {
         super(sku, name, price);
         this.size = size;
