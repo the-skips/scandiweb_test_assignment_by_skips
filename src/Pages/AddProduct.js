@@ -19,6 +19,7 @@ class AddProduct extends React.Component {
 
         this.createSKUArray = this.createSKUArray.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.putFormDataIntoObject = this.putFormDataIntoObject.bind(this);
     }
 
     componentDidMount() {
@@ -32,17 +33,54 @@ class AddProduct extends React.Component {
         let skuArray = productsArray.map((product) => product.sku);
         this.setState({ productsSKUs: skuArray });
     }
-    
+
+    putFormDataIntoObject(formData) {
+        let request = {
+            'actionType': "addProducts"
+        };
+        let data = {
+            'sku': formData.get("sku"),
+            'name': formData.get("name"),
+            'price': formData.get("price"),
+        };
+        switch (this.state.productType) {
+            case 'Book':
+                data['productType'] = 'book';
+                data['weight'] = formData.get("weight");
+                break;
+            case 'DVD':
+                data['productType'] = 'dvd';
+                data['size'] = formData.get("size");
+                break;
+            case 'Furniture':
+                data['productType'] = 'furniture';
+                data['length'] = formData.get("length");
+                data['width'] = formData.get("width");
+                data['height'] = formData.get("height");
+                break;
+            default:
+                break;
+        }
+        request['products'] = [data];
+        return request;
+    }
 
     onFormSubmit(e) {
         this.setState({ formValidated: true });
         const form = e.currentTarget;
+        e.preventDefault(); e.stopPropagation();
         if (form.checkValidity() === false) {
-            e.preventDefault(); e.stopPropagation();
             return;
         }
+        let data = this.putFormDataIntoObject(new FormData(e.currentTarget));
+        fetch("https://scandiwebtestsitebyskips.000webhostapp.com/api/server.php", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(() => this.props.history.push('/'));
 
-        console.log("hi");
     }
 
 
@@ -65,6 +103,7 @@ class AddProduct extends React.Component {
                                 <Form.Control
                                     required
                                     id="sku"
+                                    name="sku"
                                     type="text"
                                     onChange={(e) => this.setState({ invalidSKU: (this.state.productsSKUs.includes(e.target.value) || e.target.value === '') })}
                                     isInvalid={this.state.invalidSKU}
@@ -79,6 +118,7 @@ class AddProduct extends React.Component {
                                 <Form.Control
                                     required
                                     id="name"
+                                    name="name"
                                     type="text"
                                 />
                                 <Form.Control.Feedback type="invalid">Name must <b>not be empty</b></Form.Control.Feedback>
@@ -91,7 +131,8 @@ class AddProduct extends React.Component {
                                 <Form.Control
                                     required
                                     id="price"
-                                    type="text"
+                                    name="price"
+                                    type="number"
                                 />
                                 <Form.Control.Feedback type="invalid">Name must <b>not be empty</b></Form.Control.Feedback>
                             </Col>
@@ -100,7 +141,7 @@ class AddProduct extends React.Component {
                         <Form.Group as={Row} className="mt-5 mb-3">
                             <Form.Label column md={{ span: 2, offset: 1 }}>Product type</Form.Label>
                             <Col md="4">
-                                <Form.Select id="productType" required onChange={(e) => this.setState({productType: e.target.value})} >
+                                <Form.Select id="productType" required onChange={(e) => this.setState({ productType: e.target.value })} >
                                     <option value="">Please select a product type</option>
                                     <option value="Book">Book</option>
                                     <option value="DVD">DVD</option>
@@ -109,7 +150,7 @@ class AddProduct extends React.Component {
                             </Col>
                         </Form.Group>
 
-                        <ProductSpecificParameterForm productType = {this.state.productType}/>
+                        <ProductSpecificParameterForm productType={this.state.productType} />
 
                     </Container>
                 </Form>

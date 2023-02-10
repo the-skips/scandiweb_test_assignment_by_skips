@@ -24,7 +24,7 @@ class ProductBox extends React.Component {
                     <Container className="py-5">
                         {this.props.product.sku} <br />
                         {this.props.product.name} <br />
-                        {this.props.product.price} <br />
+                        {this.props.product.price} $ <br />
                         {this.props.product.printProductSpecificAttributes()}
                     </Container>
                 </Container>

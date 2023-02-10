@@ -35,7 +35,8 @@ export default class ProductSpecificParameterForm extends React.Component {
                             <Form.Control
                                 required
                                 id={id[i]}
-                                type="text"
+                                name={id[i]}
+                                type="number"
                             />
                             <Form.Control.Feedback type="invalid">Field must <b>not be empty</b></Form.Control.Feedback>
                         </Col>
