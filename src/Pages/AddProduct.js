@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { parseDataIntoProducts } from "../DTO/ProductFactory";
+import ProductSpecificParameterForm from "../Components/ProductSpecificParameterForm";
 
 
 class AddProduct extends React.Component {
@@ -12,7 +13,7 @@ class AddProduct extends React.Component {
         {
             productsSKUs: null,
             formValidated: false,
-            invalidSKU: true,
+            invalidSKU: false,
             productType: null
         }; // Products will be fetched to verify that new product's sku is unique
 
@@ -31,13 +32,17 @@ class AddProduct extends React.Component {
         let skuArray = productsArray.map((product) => product.sku);
         this.setState({ productsSKUs: skuArray });
     }
+    
 
     onFormSubmit(e) {
+        this.setState({ formValidated: true });
         const form = e.currentTarget;
         if (form.checkValidity() === false) {
             e.preventDefault(); e.stopPropagation();
+            return;
         }
-        this.setState({ formValidated: true });
+
+        console.log("hi");
     }
 
 
@@ -63,7 +68,6 @@ class AddProduct extends React.Component {
                                     type="text"
                                     onChange={(e) => this.setState({ invalidSKU: (this.state.productsSKUs.includes(e.target.value) || e.target.value === '') })}
                                     isInvalid={this.state.invalidSKU}
-                                    isValid={!this.state.invalidSKU}
                                 />
                                 <Form.Control.Feedback type="invalid">SKU must <b>unique</b> and <b>not empty</b></Form.Control.Feedback>
                             </Col>
@@ -93,11 +97,11 @@ class AddProduct extends React.Component {
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} className="mt-5 mb-4">
+                        <Form.Group as={Row} className="mt-5 mb-3">
                             <Form.Label column md={{ span: 2, offset: 1 }}>Product type</Form.Label>
                             <Col md="4">
-                                <Form.Select id="productType" onChange={(e) => this.setState({ productType: e.target.value })} >
-                                    <option>Please select a product type</option>
+                                <Form.Select id="productType" required onChange={(e) => this.setState({productType: e.target.value})} >
+                                    <option value="">Please select a product type</option>
                                     <option value="Book">Book</option>
                                     <option value="DVD">DVD</option>
                                     <option value="Furniture">Furniture</option>
@@ -105,7 +109,7 @@ class AddProduct extends React.Component {
                             </Col>
                         </Form.Group>
 
-                        <Container><p className="h1">{this.state.productType}</p></Container>
+                        <ProductSpecificParameterForm productType = {this.state.productType}/>
 
                     </Container>
                 </Form>
