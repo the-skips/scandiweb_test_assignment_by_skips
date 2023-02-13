@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Container } from "react-bootstrap";
+import { Col, Container, Form } from "react-bootstrap";
 
 class ProductBox extends React.Component {
     constructor(props) {
@@ -13,8 +13,8 @@ class ProductBox extends React.Component {
     render() {
         return (
             <Col sm="3">
-                <Container className="productBox border rounded-3 border-primary">
-                    <input
+                <Container className="productBox text-white border border-primary rounded-3">
+                    <Form.Check
                         name={JSON.stringify(this.props.product)}
                         className="delete-checkbox"    
                         type="checkbox"

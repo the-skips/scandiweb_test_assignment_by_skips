@@ -1,11 +1,13 @@
 $theme-colors: (
     "primary": rgb(0, 61, 61),
-    "secondary": rgb(100, 64, 62),
+    "secondary": rgb(75, 49, 47),
 );
 
 @import "~bootstrap/scss/bootstrap";
 
 $bgClr: rgb(209, 208, 130);
+$bgClr2: rgb(75, 61, 65);
+
 
 /*
 * {

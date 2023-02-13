@@ -130,6 +130,8 @@ class AddProduct extends React.Component {
                                     required
                                     id="price"
                                     name="price"
+                                    min="0"
+                                    step="any"
                                     type="number"
                                 />
                                 <Form.Control.Feedback type="invalid">Name must <b>not be empty</b></Form.Control.Feedback>
