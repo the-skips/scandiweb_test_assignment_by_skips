@@ -3,34 +3,60 @@ import { withRouter } from "react-router-dom";
 import ProductBox from "../Components/ProductBox";
 import { parseDataIntoProducts } from "../DTO/ProductFactory";
 
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import "../SCSS/ProductList.scss"
 
 class ProductList extends React.Component {
     constructor(props) {
         super();
-        this.state = { products: null };
+        this.state = { products: null, loading: true };
 
+        this.askServerForProducts = this.askServerForProducts.bind(this);
         this.createProducts = this.createProducts.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.showProducts = this.showProducts.bind(this);
     }
 
     componentDidMount() {
+        this.askServerForProducts();
+    }
+
+    askServerForProducts() {
+        this.setState({ loading: true });
         fetch('https://scandiwebtestsitebyskips.000webhostapp.com/api/server.php', { method: 'GET' })
             .then((r) => { return r.text() })
             .then((json) => this.createProducts(json));
-
     }
 
     createProducts(json) {
         let productsArray = parseDataIntoProducts(json);
-        this.setState({ products: productsArray });
+        this.setState({ products: productsArray, loading: false });
     }
 
-    handleDelete() {
-        console.log("Delete was pressed");
+    putFormDataIntoObject(formData) {
+        let request = {
+            'actionType': "deleteProducts"
+        };
+        let data = [];
+        for (const key of formData.keys()) {
+            data.push(JSON.parse(key));
+        }
+        request['products'] = data;
+        return request;
+    }
+
+    handleDelete(e) {
+        e.preventDefault(); e.stopPropagation();
+        console.log(new FormData(e.currentTarget));
+        let data = this.putFormDataIntoObject(new FormData(e.currentTarget));
+        fetch("https://scandiwebtestsitebyskips.000webhostapp.com/api/server.php", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(() => this.askServerForProducts());
     }
 
     showProducts() {
@@ -44,6 +70,26 @@ class ProductList extends React.Component {
 
 
     render() {
+        let body;
+        if (this.state.loading === true) {
+            body = (
+                <div className="d-flex justify-content-center mt-5">
+                    <Spinner animation="border" variant="secondary" />
+                </div>
+            );
+        }
+        else if (this.state.products.length > 0) {
+            body = (
+                <Row className="justify-content-around g-5">
+                    {this.showProducts()}
+                </Row>
+            );
+        }
+        else {
+            body = (
+                <div className="text-center mt-5"><p className="h3 text-muted">No products available</p></div>
+            );
+        }
         return (
             <div>
                 <form onSubmit={this.handleDelete}>
@@ -55,9 +101,7 @@ class ProductList extends React.Component {
                         </Row>
                     </Container>
                     <Container fluid>
-                        <Row className="justify-content-around g-5">
-                            {this.showProducts()}
-                        </Row>
+                        {body}
                     </Container>
                 </form>
             </div>

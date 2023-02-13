@@ -69,10 +69,8 @@ class AddProduct extends React.Component {
         this.setState({ formValidated: true });
         const form = e.currentTarget;
         e.preventDefault(); e.stopPropagation();
-        if (form.checkValidity() === false) {
-            return;
-        }
-        let data = this.putFormDataIntoObject(new FormData(e.currentTarget));
+        if (form.checkValidity() === false) return;
+        let data = this.putFormDataIntoObject(new FormData(form));
         fetch("https://scandiwebtestsitebyskips.000webhostapp.com/api/server.php", {
             method: "POST",
             headers: {

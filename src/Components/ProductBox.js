@@ -15,7 +15,7 @@ class ProductBox extends React.Component {
             <Col sm="3">
                 <Container className="productBox border rounded-3 border-primary">
                     <input
-                        name={this.props.product.sku}
+                        name={JSON.stringify(this.props.product)}
                         className="delete-checkbox"    
                         type="checkbox"
                         checked={this.state.checkboxChecked}
